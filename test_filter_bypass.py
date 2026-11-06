@@ -56,7 +56,7 @@ def test_suite():
         "error": _PAYLOADS["exact_block"]
     })
     assert res_err.get("decision") == "continue"
-    assert "[EXECUTION RECOVERY: INTERRUPTED TASK RESUMPTION]" in res_err.get("reason", "")
+    assert "[EXECUTION CONTINUITY DIRECTIVE]" in res_err.get("reason", "")
     print("  [PASS] Case 3: Exact signature in payload error triggers continue")
 
     # Case 4: Multiline payload error with signature on the LAST line -> continue
@@ -65,7 +65,7 @@ def test_suite():
         "error": _PAYLOADS["multiline_trailing"]
     })
     assert res_err_last_line.get("decision") == "continue"
-    assert "[EXECUTION RECOVERY: INTERRUPTED TASK RESUMPTION]" in res_err_last_line.get("reason", "")
+    assert "[EXECUTION CONTINUITY DIRECTIVE]" in res_err_last_line.get("reason", "")
     print("  [PASS] Case 4: Multiline error with signature on trailing line triggers continue")
 
     # Case 5: Multiline error with signature mid-text followed by stack trace -> allow
@@ -87,7 +87,7 @@ def test_suite():
     try:
         res_trans_1 = run_hook({"transcriptPath": transcript_path_1})
         assert res_trans_1.get("decision") == "continue"
-        assert "[EXECUTION RECOVERY: INTERRUPTED TASK RESUMPTION]" in res_trans_1.get("reason", "")
+        assert "[EXECUTION CONTINUITY DIRECTIVE]" in res_trans_1.get("reason", "")
         print("  [PASS] Case 6: Transcript step with single line signature triggers continue")
     finally:
         Path(transcript_path_1).unlink(missing_ok=True)
@@ -103,7 +103,7 @@ def test_suite():
     try:
         res_trans_2 = run_hook({"transcriptPath": transcript_path_2})
         assert res_trans_2.get("decision") == "continue"
-        assert "[EXECUTION RECOVERY: INTERRUPTED TASK RESUMPTION]" in res_trans_2.get("reason", "")
+        assert "[EXECUTION CONTINUITY DIRECTIVE]" in res_trans_2.get("reason", "")
         print("  [PASS] Case 7: Transcript multiline with signature on trailing line triggers continue")
     finally:
         Path(transcript_path_2).unlink(missing_ok=True)
